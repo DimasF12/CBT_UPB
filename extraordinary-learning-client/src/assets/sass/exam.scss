@@ -1,0 +1,217 @@
+
+.bar-top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+.bar-top .soal-title {
+    font-weight: 700;
+    margin-left: 10px;
+    border-radius: 3px;
+    background-color: #3594DF;
+    padding: 5px 10px;
+    color: #fff
+}
+
+.bar-top .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center
+}
+
+.bar-top .timer {
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    border: 1px solid #EB4043;
+    padding: 5px 20px
+}
+
+.bar-top .timer-time {
+    font-weight: 700
+}
+
+.bar-top .btn-soal {
+    margin-left: 10px;
+    border-radius: 50px;
+    padding: 5px 20px
+}
+
+.bar-top .btn-soal .fa {
+    margin-left: 10px
+}
+
+.bar-text {
+    margin-top: 20px;
+    padding: 10px 40px;
+    background-color: #efefef
+}
+
+.bar-text .font-small {
+    font-size: 11px;
+    color: #AAA
+}
+
+.bar-text .font-middle {
+    font-size: 13px;
+    color: #666
+}
+
+.bar-text .font-big {
+    font-size: 15px;
+    color: #000
+}
+
+.soal-wrapper {
+    border: 1px solid #eee;
+    border-top: 3px solid #eee;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px
+}
+
+.soal-wrapper img {
+    max-width: 100%
+}
+
+.nomor-soal {
+    list-style: none
+}
+
+.nomor-soal li {
+    float: left;
+    margin: 8px
+}
+
+.nomor-soal li a {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    padding-top: 10px;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 3px;
+    color: #336799;
+    font-size: 14px;
+    font-weight: 700
+}
+
+.nomor-soal li a:hover,
+.nomor-soal li a:focus,
+.nomor-soal li a.active {
+    background: #187DE4;
+    border-color: #187DE4;
+    color: #fff
+}
+
+.nomor-soal li a:hover span,
+.nomor-soal li a:focus span,
+.nomor-soal li a.active span {
+    color: #000;
+    border-color: #336799
+}
+
+.nomor-soal li a.ragu span {
+    background: #ff9900 !important;
+    color: #fff
+}
+
+.nomor-soal li a.isi span {
+    background: #187DE4;
+    color: #fff
+}
+
+.nomor-soal li a span {
+    position: absolute;
+    display: block;
+    background: #eee;
+    color: #000;
+    font-size: 11px;
+    padding-top: 2px;
+    border: 1px solid #000;
+    width: 20px;
+    height: 20px;
+    top: -8px;
+    right: -8px;
+    border-radius: 500px
+}
+
+.button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center
+}
+
+.button-wrapper button {
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: #fff;
+    font-weight: 700
+}
+
+.button-wrapper button:hover,
+.button-wrapper button:focus,
+.button-wrapper button.active,
+.button-wrapper button:active {
+    color: #fff !important
+}
+
+.button-wrapper .sesudah {
+    margin-left: auto
+}
+
+.button-wrapper .sesudah .fa {
+    margin-left: 10px
+}
+
+.button-wrapper .sebelum .fa {
+    margin-right: 10px
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding-top: 25px;
+    padding-bottom: 25px
+}
+
+.logo img {
+    height: 70px;
+    margin-right: 20px
+}
+
+.logo h2 {
+    color: #fff;
+    margin: 0
+}
+
+.logo h6 {
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: 4px;
+    margin: 0
+}
+
+.logo-center {
+    justify-content: center
+}
+
+@media(max-width:500px) {
+    .button-wrapper .sesudah {
+        margin-left: 0
+    }
+    .button-wrapper {
+        flex-direction: column
+    }
+    .bar-top {
+        flex-direction: column
+    }
+    .ml-auto {
+        margin-left: 0 !important
+    }
+    .bar-top .right {
+        margin-left: 0
+    }
+}

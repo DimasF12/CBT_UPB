@@ -1,0 +1,53 @@
+{
+  "name": "dian",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@mycure/vue-jitsi-meet": "^0.0.7",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.16.0",
+    "ckeditor4-vue": "^1.0.1",
+    "core-js": "^3.6.5",
+    "perfect-scrollbar": "^1.5.0",
+    "register-service-worker": "^1.7.1",
+    "socket.io-client": "^2.3.0",
+    "vue": "^2.6.11",
+    "vue-ctk-date-time-picker": "^2.5.0",
+    "vue-html-to-paper": "^1.3.1",
+    "vue-inline-svg": "^2.0.0",
+    "vue-json-excel": "^0.2.98",
+    "vue-loading-overlay": "^3.3.3",
+    "vue-perfect-scrollbar": "^0.2.1",
+    "vue-router": "^3.2.0",
+    "vue-select": "^3.10.8",
+    "vue-sweetalert2": "^3.0.6",
+    "vue-uuid": "^2.0.2",
+    "vue-youtube": "^1.4.0",
+    "vue-youtube-embed": "^2.2.2",
+    "vue2-perfect-scrollbar": "^1.5.0",
+    "vuejs-datetimepicker": "^1.1.13",
+    "vuex": "^3.4.0",
+    "webrtc-adapter": "^7.7.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-pwa": "~4.4.0",
+    "@vue/cli-plugin-router": "~4.4.0",
+    "@vue/cli-plugin-vuex": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "compression-webpack-plugin": "^6.0.1",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
