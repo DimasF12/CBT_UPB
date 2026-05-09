@@ -33,7 +33,7 @@ if ! command -v php7.4 &> /dev/null; then
     fi
 
     echo "    Installing PHP 7.4 packages..."
-    sudo apt-get install -y php7.4-cli php7.4-sqlite3 php7.4-mbstring php7.4-xml php7.4-zip php7.4-curl
+    sudo apt-get install -y php7.4-cli php7.4-sqlite3 php7.4-mbstring php7.4-xml php7.4-zip php7.4-curl php7.4-gd
 
     if command -v php7.4 &> /dev/null; then
         echo "    PHP 7.4 installed: $(php7.4 --version | head -1)"
