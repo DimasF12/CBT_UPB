@@ -6,7 +6,16 @@ module.exports = {
 
     config.plugin('CompressionPlugin').use(CompressionPlugin);
   },
-	pwa: {
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
+  pwa: {
     themeColor: "#130f40",
     msTileColor: "#130f40",
     name: "Extraordinary-LMS",
@@ -21,7 +30,6 @@ module.exports = {
         {
           src: "./img/icons/android-chrome-maskable-192x192.png",
           sizes: "192x192",
-          type: "image/png",
           purpose: "maskable",
         }
       ],

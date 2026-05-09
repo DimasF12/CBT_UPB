@@ -82,7 +82,7 @@ if [ -d "vendor" ]; then
     rm -rf vendor
 fi
 
-$PHP_CMD $(which composer) install --no-interaction --prefer-dist --optimize-autoloader
+$PHP_CMD $(which composer) install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-gd
 
 # --- Step 4: Generate app key ---
 echo ""
