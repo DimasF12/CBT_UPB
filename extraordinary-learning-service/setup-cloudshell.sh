@@ -40,8 +40,26 @@ echo "    Created: $DB_PATH"
 # --- Step 3: Install Composer dependencies ---
 echo ""
 echo "[3/6] Installing Composer dependencies (ignoring PHP version)..."
+
+# Bersihkan folder vendor jika ada sisa kegagalan sebelumnya
+if [ -d "vendor" ]; then
+    echo "    Cleaning up existing vendor directory..."
+    rm -rf vendor
+fi
+
 # Menggunakan --ignore-platform-reqs karena Cloud Shell menggunakan PHP 8.3
 composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+# --- Step 3.5: PHP 8 Compatibility Patch ---
+echo ""
+echo "[3.5/6] Applying PHP 8 Compatibility Patch..."
+# Patch untuk Collection.php, Container.php, dll agar tidak error di PHP 8.1+
+find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetExists(/#\[\\ReturnTypeWillChange\]\n    public function offsetExists(/g' {} +
+find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetGet(/#\[\\ReturnTypeWillChange\]\n    public function offsetGet(/g' {} +
+find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetSet(/#\[\\ReturnTypeWillChange\]\n    public function offsetSet(/g' {} +
+find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetUnset(/#\[\\ReturnTypeWillChange\]\n    public function offsetUnset(/g' {} +
+find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function getIterator(/#\[\\ReturnTypeWillChange\]\n    public function getIterator(/g' {} +
+find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function count(/#\[\\ReturnTypeWillChange\]\n    public function count(/g' {} +
 
 # --- Step 4: Generate app key ---
 echo ""
