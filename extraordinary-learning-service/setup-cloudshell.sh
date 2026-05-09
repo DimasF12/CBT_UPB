@@ -39,8 +39,9 @@ echo "    Created: $DB_PATH"
 
 # --- Step 3: Install Composer dependencies ---
 echo ""
-echo "[3/6] Installing Composer dependencies..."
-composer install --no-interaction --prefer-dist --optimize-autoloader
+echo "[3/6] Installing Composer dependencies (ignoring PHP version)..."
+# Menggunakan --ignore-platform-reqs karena Cloud Shell menggunakan PHP 8.3
+composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
 # --- Step 4: Generate app key ---
 echo ""
