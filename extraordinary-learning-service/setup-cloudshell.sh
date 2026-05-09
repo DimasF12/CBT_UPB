@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =============================================================
-# ExtraordinaryLMS - Cloud Shell Setup Script (SQLite Mode)
+# ExtraordinaryLMS - Cloud Shell Setup Script (SQLite + PHP 7.4)
 # =============================================================
 
 set -e
@@ -10,12 +10,31 @@ echo "======================================================"
 echo "  ExtraordinaryLMS Backend - Cloud Shell Setup"
 echo "======================================================"
 
+# --- Step 0: Install PHP 7.4 ---
+echo ""
+echo "[0/7] Installing PHP 7.4 (required for Laravel 7)..."
+
+# Cek apakah php7.4 sudah ada
+if ! command -v php7.4 &> /dev/null; then
+    echo "    PHP 7.4 not found. Installing via sury.org..."
+    sudo apt-get install -y lsb-release apt-transport-https ca-certificates wget 2>/dev/null
+    sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+    sudo apt-get update -q
+    sudo apt-get install -y php7.4-cli php7.4-sqlite3 php7.4-mbstring php7.4-xml php7.4-zip php7.4-curl php7.4-json php7.4-tokenizer
+    echo "    PHP 7.4 installed successfully."
+else
+    echo "    PHP 7.4 already installed: $(php7.4 --version | head -1)"
+fi
+
+PHP_CMD="php7.4"
+
 # --- Step 1: Set DB_DATABASE path ke current directory ---
 CURRENT_DIR=$(pwd)
 DB_PATH="$CURRENT_DIR/database/database.sqlite"
 
 echo ""
-echo "[1/6] Setting up .env for SQLite..."
+echo "[1/7] Setting up .env for SQLite..."
 cp .env.example .env 2>/dev/null || true
 
 # Update konfigurasi DB di .env
@@ -33,13 +52,14 @@ echo "    DB_DATABASE set to: $DB_PATH"
 
 # --- Step 2: Buat file SQLite ---
 echo ""
-echo "[2/6] Creating SQLite database file..."
+echo "[2/7] Creating SQLite database file..."
+mkdir -p database
 touch "$DB_PATH"
 echo "    Created: $DB_PATH"
 
-# --- Step 3: Install Composer dependencies ---
+# --- Step 3: Install Composer dependencies dengan PHP 7.4 ---
 echo ""
-echo "[3/6] Installing Composer dependencies (ignoring PHP version)..."
+echo "[3/7] Installing Composer dependencies with PHP 7.4..."
 
 # Bersihkan folder vendor jika ada sisa kegagalan sebelumnya
 if [ -d "vendor" ]; then
@@ -47,42 +67,35 @@ if [ -d "vendor" ]; then
     rm -rf vendor
 fi
 
-# Menggunakan --ignore-platform-reqs karena Cloud Shell menggunakan PHP 8.3
-composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
-
-# --- Step 3.5: PHP 8 Compatibility Patch ---
-echo ""
-echo "[3.5/6] Applying PHP 8 Compatibility Patch..."
-# Patch untuk Collection.php, Container.php, dll agar tidak error di PHP 8.1+
-find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetExists(/#\[\\ReturnTypeWillChange\]\n    public function offsetExists(/g' {} +
-find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetGet(/#\[\\ReturnTypeWillChange\]\n    public function offsetGet(/g' {} +
-find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetSet(/#\[\\ReturnTypeWillChange\]\n    public function offsetSet(/g' {} +
-find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function offsetUnset(/#\[\\ReturnTypeWillChange\]\n    public function offsetUnset(/g' {} +
-find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function getIterator(/#\[\\ReturnTypeWillChange\]\n    public function getIterator(/g' {} +
-find vendor/laravel/framework/src/Illuminate/ -name "*.php" -type f -exec sed -i 's/public function count(/#\[\\ReturnTypeWillChange\]\n    public function count(/g' {} +
+$PHP_CMD $(which composer) install --no-interaction --prefer-dist --optimize-autoloader
 
 # --- Step 4: Generate app key ---
 echo ""
-echo "[4/6] Generating application key..."
-php artisan key:generate
+echo "[4/7] Generating application key..."
+$PHP_CMD artisan key:generate
 
 # --- Step 5: Run migrations ---
 echo ""
-echo "[5/6] Running database migrations..."
-php artisan migrate --force
+echo "[5/7] Running database migrations..."
+$PHP_CMD artisan migrate --force
 
 # --- Step 6: Install Laravel Passport ---
 echo ""
-echo "[6/6] Installing Laravel Passport..."
-php artisan passport:install --force
+echo "[6/7] Installing Laravel Passport..."
+$PHP_CMD artisan passport:install --force
+
+# --- Step 7: Storage link ---
+echo ""
+echo "[7/7] Creating storage symlink..."
+$PHP_CMD artisan storage:link || true
 
 echo ""
 echo "======================================================"
-echo "  Setup selesai!"
+echo "  Setup SELESAI!"
 echo "======================================================"
 echo ""
-echo "  Untuk menjalankan server, gunakan perintah:"
-echo "  php artisan serve --host=0.0.0.0 --port=8000"
+echo "  Jalankan server dengan perintah:"
+echo "  php7.4 artisan serve --host=0.0.0.0 --port=8000"
 echo ""
 echo "  Lalu klik Web Preview -> Preview on port 8000"
 echo "======================================================"
