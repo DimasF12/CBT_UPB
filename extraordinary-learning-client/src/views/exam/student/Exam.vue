@@ -172,7 +172,8 @@ export default {
             editorConfig: {
                 allowedContent: true,
                 removeButtons: 'PasteText,PasteFromWord,Paste,Image,Flash,HorizontalRule,Smiley,PageBreak,Iframe,Source,Styles,About'
-            }
+            },
+			violationCount: 0
 		}
 	},
 	filters: {
@@ -283,16 +284,46 @@ export default {
                 return true
             }
             return false
-        }
+        },
+		handleAntiCheat() {
+			if (document.visibilityState === 'hidden' || !document.hasFocus()) {
+				this.violationCount++;
+
+				if (this.violationCount >= 2) {
+					this.finish();
+					this.$swal({
+						title: 'Ujian Dihentikan!',
+						text: 'Anda telah meninggalkan halaman ujian sebanyak 2 kali. Ujian Anda otomatis selesai.',
+						icon: 'error'
+					});
+				} else {
+					this.$swal({
+						title: 'Peringatan!',
+						text: 'Jangan meninggalkan halaman ujian! Jika Anda melakukannya sekali lagi, ujian akan otomatis selesai.',
+						icon: 'warning'
+					});
+				}
+			}
+		}
 	},
 	created() {
 		this.getDataExamAnswers()
 		.then((res) => {
 			this.start()
+			
+			// Anti-Cheat: Selesai otomatis jika pindah tab atau buka aplikasi lain
+			window.addEventListener('blur', this.handleAntiCheat);
+			document.addEventListener('visibilitychange', this.handleAntiCheat);
 		})
 		.catch((error) => {
 			this.$bvToast.toast(error.message, errorToas())
 		})
+	},
+	beforeDestroy() {
+		// Bersihkan listener saat keluar dari halaman ujian
+		window.removeEventListener('blur', this.handleAntiCheat);
+		document.removeEventListener('visibilitychange', this.handleAntiCheat);
+		clearInterval(this.interval);
 	},
 	watch: {
 		questionIndex() {
