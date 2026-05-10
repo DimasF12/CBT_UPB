@@ -18,7 +18,7 @@ class CreateTokensTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('token');
-            $table->string('status'); // 0: inactive | 1: active
+            $table->string('status')->default('0'); // 0: inactive | 1: active
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
